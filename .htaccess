@@ -1,0 +1,23 @@
+<IfModule mod_header.c>
+Header set X-Content-Type-Options "nosniff"
+Header set X-XSS-Protection "1; mode=block"
+Header set X-Robots-Tag "none"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set X-Download-Options "noopen"
+Header set X-Permitted-Cross-Domain-Policies "none"
+Header set X-Content-Security-Policy "default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'"
+Header set Content-Security-Policy "default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'"
+Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/(.*)$ index.php?request=$1&api=1 [QSA,NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?request=$1 [QSA,NC,L]
+</IfModule>
